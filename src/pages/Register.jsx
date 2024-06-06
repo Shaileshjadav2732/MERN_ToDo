@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link,Navigate } from "react-router-dom";
 import axios from "axios";
-import  {server } from "../main";
+import  {Context, server } from "../main";
 import toast from "react-hot-toast";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { isAuthenticated, SetIsAuthenticated } = useContext(Context);
 
    const submitHandler = async (e) => {
     
@@ -25,16 +26,17 @@ function Register() {
              "Content-Type": "application/json",
            },
            withCredentials: true,
-         }
+         }  
        );
 
-       toast("nice")
-       
+       toast(data.message)
+       SetIsAuthenticated(true);
      } catch (error) {
        toast.error(error.response.data.message);
-       
+       SetIsAuthenticated(false)
      }
    };
+   if(isAuthenticated) return <Navigate to={"/"}/>
   return (
     <div className="login">
       <section>
