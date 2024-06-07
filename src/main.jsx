@@ -5,22 +5,36 @@ import "./styles/app.scss";
 import { createContext } from "react";
 
 export const Context = createContext({ isAuthenticated: false });
+
 export const server = "https://todo-list-jmfc.onrender.com/api/v1";
 
+export const AppWrapper = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState({});
 
-const AppWraper=()=>{
-
-const [isAuthenticated,setIsAuthenticated]=useState(false)
   return (
-    <Context.Provider value={{isAuthenticated, setIsAuthenticated}}>
+    <Context.Provider
+      value={{
+        isAuthenticated,
+        setIsAuthenticated,
+        loading,
+        setLoading,
+        user,
+        setUser,
+      }}
+    >
       <App />
     </Context.Provider>
   );
-}
+};
 
+// Store the root in a variable to ensure it is only created once
+const rootElement = document.getElementById("root");
+const root = ReactDOM.createRoot(rootElement);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+root.render(
   <React.StrictMode>
-    <App/>
+    <AppWrapper />
   </React.StrictMode>
 );
