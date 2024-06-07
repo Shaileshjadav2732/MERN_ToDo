@@ -4,7 +4,6 @@ import { Context, server } from "../main";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +38,10 @@ function Login() {
       setLoading(false);
     }
   };
-  if (isAuthenticated) return <Navigate to={"/"} />;
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="login">
@@ -59,7 +61,7 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-       
+
           <button disabled={loading} type="submit">
             Login
           </button>

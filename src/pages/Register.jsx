@@ -38,8 +38,12 @@ function Register() {
       SetIsAuthenticated(false);
       setLoading(false);
     }
-    if (isAuthenticated) return <Navigate to={"/"} />;
   };
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <div className="login">
       <section>
@@ -65,7 +69,9 @@ function Register() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">Sign Up</button>
+          <button type="submit" disabled={loading}>
+            Sign Up
+          </button>
           <h4>Or</h4>
           <Link to="/login">Log In</Link>
         </form>
