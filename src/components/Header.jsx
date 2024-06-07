@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Context, server } from "../main";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -7,18 +7,16 @@ import toast from "react-hot-toast";
 function Header() {
   const { isAuthenticated, setIsAuthenticated, loading, setLoading } =
     useContext(Context);
+  const navigate = useNavigate(); // useNavigate hook for programmatic navigation
+
   const logoutHandler = async (e) => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        `${server}/users/logout`,
+      const { data } = await axios.get(`${server}/users/logout`, {
+        withCredentials: true,
+      });
 
-        {
-          withCredentials: true,
-        }
-      );
-
-      toast("Loggedout Successfully");
+      toast("Logged out Successfully");
       setIsAuthenticated(false);
       setLoading(false);
     } catch (error) {
@@ -27,7 +25,13 @@ function Header() {
       setLoading(false);
     }
   };
- if (!isAuthenticated) return <Navigate to={"/login"} />;
+
+  useEffect(() => {
+    if (!isAuthenticated && !loading) {
+      navigate("/login");
+    }
+  }, [isAuthenticated, loading, navigate]);
+
   return (
     <nav className="header">
       <div>
