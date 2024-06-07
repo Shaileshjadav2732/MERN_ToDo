@@ -7,13 +7,13 @@ import axios from "axios";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const { isAuthenticated, setIsAuthenticated, loading, setLoading } =
+const [loadingForLogin,setLoadingForLogin]=useState(false)
+  const { isAuthenticated, setIsAuthenticated } =
     useContext(Context);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setLoadingForLogin(true);
     try {
       const { data } = await axios.post(
         `${server}/users/login`,
@@ -31,11 +31,11 @@ function Login() {
 
       toast(data.message);
       setIsAuthenticated(true);
-      setLoading(false);
+      setLoadingForLogin(false);
     } catch (error) {
       toast.error(error.response.data.message);
       setIsAuthenticated(false);
-      setLoading(false);
+      setLoadingForLogin(false);
     }
   };
 
@@ -62,7 +62,7 @@ function Login() {
             required
           />
 
-          <button disabled={loading} type="submit">
+          <button disabled={loadingForLogin} type="submit">
             Login
           </button>
           <h4>Or</h4>
