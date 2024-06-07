@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Context, server } from "../main";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -27,7 +27,7 @@ function Header() {
       setLoading(false);
     }
   };
-
+ if (!isAuthenticated) return <Navigate to={"/login"} />;
   return (
     <nav className="header">
       <div>
