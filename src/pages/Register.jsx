@@ -69,7 +69,7 @@ function Register() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit" disabled={loading}>
+          <button disabled={loading}>
             Sign Up
           </button>
           <h4>Or</h4>

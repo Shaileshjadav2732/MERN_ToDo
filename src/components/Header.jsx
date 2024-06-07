@@ -1,22 +1,21 @@
-import React, { useContext, useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Context, server } from "../main";
 import axios from "axios";
-import toast from "react-hot-toast";
+import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
+import { Context, server } from "../main";
 
-function Header() {
+const Header = () => {
   const { isAuthenticated, setIsAuthenticated, loading, setLoading } =
     useContext(Context);
-  const navigate = useNavigate(); // useNavigate hook for programmatic navigation
 
-  const logoutHandler = async (e) => {
+  const logoutHandler = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const { data } = await axios.get(`${server}/users/logout`, {
+      await axios.get(`${server}/users/logout`, {
         withCredentials: true,
       });
 
-      toast("Logged out Successfully");
+      toast.success("Logged Out Successfully");
       setIsAuthenticated(false);
       setLoading(false);
     } catch (error) {
@@ -26,12 +25,6 @@ function Header() {
     }
   };
 
-  useEffect(() => {
-    if (!isAuthenticated && !loading) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, loading, navigate]);
-
   return (
     <nav className="header">
       <div>
@@ -40,9 +33,8 @@ function Header() {
       <article>
         <Link to={"/"}>Home</Link>
         <Link to={"/profile"}>Profile</Link>
-
         {isAuthenticated ? (
-          <button disabled={loading} className="btn" onClick={logoutHandler}>
+          <button disabled={loading} onClick={logoutHandler} className="btn">
             Logout
           </button>
         ) : (
@@ -51,6 +43,6 @@ function Header() {
       </article>
     </nav>
   );
-}
+};
 
 export default Header;
