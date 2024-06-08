@@ -81,8 +81,8 @@ function Home() {
       .then((res) => {
         setTasks(res.data.tasks);
       })
-      .catch((e) => {
-        toast.error(e.response.data.message);
+      .catch((error) => {
+        toast.error(error.response.data.message);
       });
   }, [refresh]);
 

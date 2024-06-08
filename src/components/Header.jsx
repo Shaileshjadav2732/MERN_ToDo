@@ -1,14 +1,14 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { Context, server } from "../main";
 
-onst[(loadingForLogout, setLoadingForLogout)] = useState(false);
 
 const Header = () => {
   const { isAuthenticated, setIsAuthenticated } =
-    useContext(Context);
+  useContext(Context);
+  const[loadingForLogout, setLoadingForLogout] = useState(false);
 
   const logoutHandler = async () => {
     setLoadingForLogout(true);
